@@ -1,5 +1,7 @@
 # NEX-PULSE Agent 🧠🚀
 
+**Creado y Desarrollado por Cristian Lucas**
+
 [![Security: Zero Vulnerabilities](https://img.shields.io/badge/Security-Zero%_Vulnerabilities-success.svg)](https://github.com/)
 [![Architecture: Multi-Agent](https://img.shields.io/badge/Architecture-Multi--Agent-purple.svg)](https://github.com/)
 [![OS: Windows 10/11](https://img.shields.io/badge/OS-Windows-blue.svg)](https://github.com/)

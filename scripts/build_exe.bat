@@ -18,6 +18,7 @@ python -m PyInstaller --noconfirm ^
     --name "NEX-PULSE-Agent" ^
     --uac-admin ^
     --clean ^
+    --version-file="scripts/version_info.txt" ^
     --add-data "src/config.py;." ^
     src/main.py
 

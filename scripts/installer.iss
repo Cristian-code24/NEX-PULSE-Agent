@@ -9,7 +9,8 @@
 AppId={{8B3C1F4A-2A1B-4C9D-9F3E-5B7A6C8D9E0F}
 AppName=NEX-PULSE Agent
 AppVersion=1.0.0
-AppPublisher=Cristian David Quispe Lucas
+AppPublisher=Cristian Lucas
+AppCopyright=Copyright (C) 2026 Cristian Lucas
 AppPublisherURL=https://github.com/Cristian-code24/NEX-PULSE-Agent
 AppSupportURL=https://github.com/Cristian-code24/NEX-PULSE-Agent
 AppUpdatesURL=https://github.com/Cristian-code24/NEX-PULSE-Agent

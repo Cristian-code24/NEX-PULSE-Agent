@@ -53,7 +53,7 @@ def _resolve_path(path_str: str) -> Path:
 # ==============================================================================
 APP_NAME = "NEX-PULSE Agent"
 APP_VERSION = "1.1.0"
-APP_AUTHOR = "NEX-PULSE Team"
+APP_AUTHOR = "Cristian Lucas"
 APP_ID = "nex_pulse_agent_v1"
 
 # ==============================================================================
