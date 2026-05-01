@@ -1,0 +1,27 @@
+# Ambientes virtuales
+venv/
+.env/
+env/
+
+# Logs del Sistema
+logs/
+*.log
+
+# Carpetas de Compilación de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Carpetas de Compilación (PyInstaller)
+build/
+dist/
+*.spec
+
+# IDEs
+.vscode/
+.idea/
+
+# Frontend (Node)
+node_modules/
+.npm/
