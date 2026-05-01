@@ -40,8 +40,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 ; Origen de los archivos (Debe haber sido compilado previamente con build_exe.bat)
-; Copia la carpeta completa de la aplicación al destino
-Source: "..\dist\NEX-PULSE-Agent\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+; Copia el ejecutable universal al destino
+Source: "..\dist\NEX-PULSE-Agent.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 ; Accesos Directos (Menú de Inicio)
