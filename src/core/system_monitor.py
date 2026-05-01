@@ -200,8 +200,44 @@ def get_system_summary() -> Dict[str, Any]:
         "cpu": get_cpu_metrics(),
         "memory": get_memory_metrics(),
         "disk": get_disk_metrics(),
+        "network": get_network_metrics(),
         "timestamp": time.time()
     }
+
+_last_net_io = None
+_last_net_time = None
+
+def get_network_metrics() -> Dict[str, Any]:
+    """
+    Calcula el uso actual de la red (ancho de banda).
+    """
+    global _last_net_io, _last_net_time
+    _check_psutil()
+    try:
+        current_io = psutil.net_io_counters()
+        current_time = time.time()
+
+        if _last_net_io is None:
+            _last_net_io = current_io
+            _last_net_time = current_time
+            return {"bytes_sent_sec": 0, "bytes_recv_sec": 0}
+
+        time_delta = current_time - _last_net_time
+        if time_delta == 0: time_delta = 1
+
+        sent_sec = (current_io.bytes_sent - _last_net_io.bytes_sent) / time_delta
+        recv_sec = (current_io.bytes_recv - _last_net_io.bytes_recv) / time_delta
+
+        _last_net_io = current_io
+        _last_net_time = current_time
+
+        return {
+            "bytes_sent_sec": max(0, sent_sec),
+            "bytes_recv_sec": max(0, recv_sec)
+        }
+    except Exception as e:
+        logger.error(f"Error obteniendo métricas de Red: {e}")
+        return {"bytes_sent_sec": 0, "bytes_recv_sec": 0}
 
 # ==============================================================================
 # BLOQUE DE PRUEBA (EJECUCIÓN DIRECTA)

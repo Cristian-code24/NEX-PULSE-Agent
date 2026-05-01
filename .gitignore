@@ -1,27 +1,46 @@
-# Ambientes virtuales
-venv/
-.env/
-env/
-
-# Logs del Sistema
-logs/
-*.log
-
-# Carpetas de Compilación de Python
+# =========================
+# Archivos de Python
+# =========================
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+*.so
 
-# Carpetas de Compilación (PyInstaller)
+# =========================
+# Entornos Virtuales
+# =========================
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# =========================
+# Compilación / Ejecutables
+# =========================
 build/
 dist/
 *.spec
+*.exe
 
-# IDEs
+# =========================
+# Archivos de Datos de Nexpulse (Sensibles)
+# =========================
+# Ignoramos la carpeta de datos y logs para que el historial local
+# y los aprendizajes de la IA no se suban al repositorio público.
+data/
+logs/
+nexpulse.log
+ai_brain.json
+*.json
+*.sqlite3
+
+# =========================
+# Archivos Temporales de SO e IDEs
+# =========================
 .vscode/
 .idea/
-
-# Frontend (Node)
-node_modules/
-.npm/
+.DS_Store
+Thumbs.db
+*.swp
+*.bak

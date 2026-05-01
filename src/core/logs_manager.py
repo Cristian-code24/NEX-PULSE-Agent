@@ -92,9 +92,28 @@ def setup_logger(module_name: str, level: int = None) -> logging.Logger:
             encoding='utf-8',
             delay=False # Crear archivo inmediatamente
         )
+        
+        # [RED TEAM PATCH] Restricción estricta de permisos de lectura (CHMOD 600 equivalent)
+        # En Windows, chmod restringe atributos de solo lectura, pero por seguridad general lo forzamos
+        # para que solo el creador tenga control total, mitigando fuga de información (Local Info Disclosure).
+        try:
+            import stat
+            os.chmod(str(log_path), stat.S_IREAD | stat.S_IWRITE)
+        except Exception:
+            pass # Falla silenciosa si no se soporta en el FS actual
+
+        # [PERFORMANCE PATCH] Usar caché de RAM para evitar quemar el SSD
+        memory_handler = logging.handlers.MemoryHandler(
+            capacity=100, # Vacía al disco cada 100 mensajes...
+            flushLevel=logging.ERROR, # ...o cuando hay un error inmediatamente
+            target=file_handler
+        )
+
+        # En vez de añadir el file_handler directo, usamos la caché de RAM
         file_handler.setFormatter(formatter)
         file_handler.setLevel(target_level)
-        logger.addHandler(file_handler)
+        memory_handler.setLevel(target_level)
+        logger.addHandler(memory_handler)
 
     except (OSError, PermissionError) as e:
         # Fallback crítico: Si no podemos escribir en disco, avisamos en stderr

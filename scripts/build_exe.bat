@@ -14,7 +14,7 @@ echo.
 
 python -m PyInstaller --noconfirm ^
     --onedir ^
-    --console ^
+    --noconsole ^
     --name "NEX-PULSE-Agent" ^
     --uac-admin ^
     --clean ^

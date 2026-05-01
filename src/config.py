@@ -77,6 +77,17 @@ DATA_DIR = ROOT_DIR / DATA_DIR_NAME
 critical_dirs = {"Logs": LOGS_DIR, "Data": DATA_DIR}
 
 for name, path in critical_dirs.items():
+    # [PENTESTER PATCH] Path Hijacking Prevention (Directory Jail)
+    try:
+        real_path = path.resolve()
+        real_root = ROOT_DIR.resolve()
+        # Verificamos que el path resuelto no escape del directorio base
+        if not str(real_path).startswith(str(real_root)):
+            sys.stderr.write(f"SECURITY ALERT: Intent de Path Hijacking detectado en {name}. Bloqueado.\n")
+            path = real_root / name.lower() # Forzamos a la ruta segura local
+    except Exception:
+        path = ROOT_DIR / name.lower()
+
     try:
         path.mkdir(parents=True, exist_ok=True)
     except PermissionError:

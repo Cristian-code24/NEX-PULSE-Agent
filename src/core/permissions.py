@@ -71,12 +71,12 @@ def relaunch_as_admin(args: List[str] = None) -> None:
         return
 
     # Preparar argumentos
-    if args is None:
-        args = sys.argv[1:]
+    # [PENTESTER PATCH] Prevención LPE (Inyección de Argumentos al Kernel)
+    # Ignoramos completamente argumentos externos al escalar privilegios.
+    args = []
     
     # Convertir lista de argumentos a cadena segura para línea de comandos
-    # Se envuelven en comillas para manejar espacios en rutas/argumentos
-    cmd_args = " ".join([f'"{arg}"' for arg in args])
+    cmd_args = ""
 
     logger.info("Solicitando elevación de privilegios (UAC)...")
 
