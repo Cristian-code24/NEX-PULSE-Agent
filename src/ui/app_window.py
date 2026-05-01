@@ -143,8 +143,12 @@ class NexpulseUI:
         """Ejecuta el Flush DNS de forma segura (Tamper-Proof)"""
         self.status_lbl.configure(text="Status: Executing DNS Flush...")
         try:
+            # [SECURITY PATCH] Evitar Binary Hijacking usando ruta absoluta absoluta
+            system32 = os.path.join(os.environ.get('SystemRoot', 'C:\\Windows'), 'System32')
+            ipconfig_path = os.path.join(system32, 'ipconfig.exe')
+            
             # Uso seguro de subprocess, sin shell=True, con timeout estricto
-            subprocess.run(["ipconfig", "/flushdns"], check=True, creationflags=subprocess.CREATE_NO_WINDOW, timeout=5)
+            subprocess.run([ipconfig_path, "/flushdns"], check=True, creationflags=subprocess.CREATE_NO_WINDOW, timeout=5)
             self.status_lbl.configure(text="Status: DNS Cache Purged Successfully.", text_color="#00FF9D")
         except subprocess.TimeoutExpired:
             logger.error("DNS Flush Timeout!")
@@ -184,7 +188,12 @@ class NexpulseUI:
             # Actualizar Estado General (Salud del AI)
             health = self.agent.current_health
             estado = "Secure & Stable" if health > 80 else "Optimizing Resources"
-            self.status_lbl.configure(text=f"AI Status: {estado} ({health:.1f}%)", text_color=TEXT_COLOR if health > 80 else ACCENT_COLOR)
+            
+            # [SECURITY WATCHDOG] Verificar si el hilo de la IA ha muerto
+            if time.time() - getattr(self.agent, 'last_heartbeat', 0) > 15:
+                self.status_lbl.configure(text="CRITICAL: AI CORE UNRESPONSIVE", text_color="#FF3366")
+            else:
+                self.status_lbl.configure(text=f"AI Status: {estado} ({health:.1f}%)", text_color=TEXT_COLOR if health > 80 else ACCENT_COLOR)
             
         except Exception as e:
             logger.error(f"UI Update error: {e}")

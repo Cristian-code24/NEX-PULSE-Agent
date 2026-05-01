@@ -34,13 +34,17 @@ class NexpulseAgent:
         self.sentinel = SentinelAI()
         
         self.is_active = True # Control manual de la IA
+        self.last_heartbeat = time.time() # [SECURITY] Monitor de vida del hilo
 
     def think_and_act(self, metrics, top_processes):
         """
         Ciclo principal de toma de decisiones.
         """
         if not getattr(self, 'is_active', True):
+            self.last_heartbeat = time.time() # Mantenemos el pulso aunque esté en pausa
             return "AI Core: SUSPENDIDO (Pausa Manual)"
+        
+        self.last_heartbeat = time.time() # [SECURITY] Latido activo
 
         cpu = metrics['cpu']['usage_percent']
         ram = metrics['memory']['percent']

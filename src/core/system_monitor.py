@@ -166,9 +166,8 @@ def get_top_processes(limit: int = 5, sort_by: str = "cpu") -> List[Dict[str, An
                 # psutil cachea los valores en p.info
                 p_info = p.info
                 
-                # Saneamiento de nombre
-                if not p_info['name']:
-                    p_info['name'] = "Unknown"
+                # Saneamiento de nombre y prevención de DoS por desbordamiento de string
+                p_info['name'] = str(p_info['name'])[:100] if p_info['name'] else "Unknown"
                 
                 # Normalizar valores None
                 if p_info['cpu_percent'] is None: p_info['cpu_percent'] = 0.0
